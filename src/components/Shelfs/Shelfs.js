@@ -12,6 +12,10 @@ class Shelfs extends React.Component {
     }
 
     componentDidMount() {
+        this.getAllBooksInShelf();
+    }
+
+    getAllBooksInShelf = () => {
         getAll().then(books => {
             const currentlyReading = books.filter((book) => book.shelf === "currentlyReading");
             const wantToRead = books.filter((book) => book.shelf === "wantToRead");
@@ -22,13 +26,7 @@ class Shelfs extends React.Component {
     }
 
     onShelfChange = (book, newShelf) => {
-        update(book, newShelf).then(books => {
-            this.setState({ 
-                currentlyReading: books.currentlyReading, 
-                wantToRead: books.wantToRead, 
-                read: books.read,
-            })
-        });
+        update(book, newShelf).then(() => this.getAllBooksInShelf());
     }
 
     render() {
@@ -42,7 +40,7 @@ class Shelfs extends React.Component {
                 <BookShelf title="Read" books={this.state.read} onShelfChange={this.onShelfChange} />
                 <div className="open-search">
                     <Link to="/search">
-                        <button onClick={() => console.log('ola')}>Add a book</button>
+                        <button>Add a book</button>
                     </Link>
                 </div>
             </div>

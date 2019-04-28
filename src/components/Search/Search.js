@@ -1,30 +1,38 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { search, update } from '../../services/BooksAPI';
+import { getAll, search, update } from '../../services/BooksAPI';
 import Book from '../Shelfs/BookShelf/Book/Book';
 
 class Search extends React.Component {
 
     state = {
         books: [],
+        query: "",
     }
 
     searchQueryChange = event => {
         const query = event.target.value;
+        this.setState({ query });
+
         if(query !== "") {
             search(query).then(books => {
                 if(books.length > 0) {
                     this.setState({ books });
-                    console.log(books);
                 }
             });
         }
     }
+
+    searchQueryByState = () => {
+        search(this.state.query).then(books => {
+            if(books.length > 0) {
+                this.setState({ books });
+            }
+        });
+    }
     
     onShelfChange = (book, newShelf) => {
-        update(book, newShelf).then(() => {
-            window.location.href = "/";
-        });
+        update(book, newShelf).then(() => this.searchQueryByState());
     }
 
     render() {
