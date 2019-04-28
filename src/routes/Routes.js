@@ -6,8 +6,8 @@ import Search from '../components/Search/Search';
 
 const route = () => (
     <>
-        <Route exact path="/" render={Shelfs} />
-        <Route exact path="/search" render={Search} />
+        <Route exact path="/" render={() => <Shelfs />} />
+        <Route exact path="/search" render={() => <Search />} />
     </>
 );
 
