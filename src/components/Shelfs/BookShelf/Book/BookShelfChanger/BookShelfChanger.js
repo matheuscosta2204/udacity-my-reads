@@ -18,13 +18,6 @@ class BookShelfChanger extends React.Component {
 
         return (
             <div className="book-shelf-changer" onClick={() => this.setState({ open: !this.state.open })}>
-                {/* <select value={props.book.shelf ? props.book.shelf : 'none'} onChange={(event) => props.onShelfChange(props.book, event.target.value)}>
-                    <option value="move" disabled>Move to...</option>
-                    <option value="currentlyReading">Currently Reading</option>
-                    <option value="wantToRead">Want to Read</option>
-                    <option value="read">Read</option>
-                    <option value="none">None</option>
-                </select> */}
                 {this.state.open && <div className="menu">
                     <div className={cssFisrt.join(' ')} onClick={() => this.props.onShelfChange(this.props.book, "currentlyReading")}></div>
                     <div className={cssSecond.join(' ')} onClick={() => this.props.onShelfChange(this.props.book, "wantToRead")}></div>
@@ -45,14 +38,14 @@ const styles = StyleSheet.create({
     },
     secondZoomIn: {
         animationName: zoomIn,
-        animationDuration: '1s',
+        animationDuration: '0.8s',
     },
     thirdZoomIn: {
         animationName: zoomIn,
-        animationDuration: '1.2s',
+        animationDuration: '1s',
     },
     fourthZoomIn: {
         animationName: zoomIn,
-        animationDuration: '1.5s',
+        animationDuration: '1.1s',
     },
   })

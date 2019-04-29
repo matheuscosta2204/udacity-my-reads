@@ -1,0 +1,10 @@
+.error-container {
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+}
+
+.error-text {
+    color: #cc0000;
+    text-align: center;
+}

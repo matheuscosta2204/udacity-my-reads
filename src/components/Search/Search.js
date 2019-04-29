@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { getAll, search, update } from '../../services/BooksAPI';
 import Book from '../Shelfs/BookShelf/Book/Book';
+import './Search.css';
 
 class Search extends React.Component {
 
@@ -16,12 +17,14 @@ class Search extends React.Component {
             search(query).then(books => {
                 if(books.length > 0) {
                     this.addShelfTo(books);
-                    this.setState({ query });
                 } else {
-                    console.log('nao achou');
+                    this.setState({ books: [] });
                 }
             });
+        } else {
+            this.setState({ books: [] });
         }
+        this.setState({ query });
     }
 
     addShelfTo = (booksWithoutShelf) => {
@@ -53,7 +56,6 @@ class Search extends React.Component {
 
     render() {
         const { books } = this.state;
-        //console.log(books); //books has shelf property here
         return (
             <div className="search-books">
                 <div className="search-books-bar">
@@ -68,13 +70,16 @@ class Search extends React.Component {
                     </div>
                 </div>
                 <div className="search-books-results">
+                    {books.length > 0 && 
                     <ol className="books-grid">
-                        {books.map((book, index) => {
-                            //console.log(book.shelf); //gives me undefined
-                            return (
-                            <Book key={index} book={book} onShelfChange={this.onShelfChange} />)
-                        })}
-                    </ol>
+                        {books.map((book, index) => (
+                            <Book key={index} book={book} onShelfChange={this.onShelfChange} />
+                        ))}
+                    </ol>}
+                    {books.length <= 0 && this.state.query !== "" && 
+                    <div className="error-container">
+                        <h1 className="error-text">Any book were found!</h1>
+                    </div>}
                 </div>
             </div>
         );
