@@ -7,26 +7,42 @@ class Search extends React.Component {
 
     state = {
         books: [],
-        query: "",
+        query: ""
     }
 
     searchQueryChange = event => {
         const query = event.target.value;
-        this.setState({ query });
-
         if(query !== "") {
             search(query).then(books => {
                 if(books.length > 0) {
-                    this.setState({ books });
+                    this.addShelfTo(books);
+                    this.setState({ query });
+                } else {
+                    console.log('nao achou');
                 }
             });
         }
     }
 
+    addShelfTo = (booksWithoutShelf) => {
+        getAll().then((booksInShelf) => {
+            let allBooks = booksWithoutShelf.map((bookWithoutShelf) => {
+                booksInShelf.forEach((bookInShelf) => {
+                    if (bookInShelf.id === bookWithoutShelf.id) {
+                        bookWithoutShelf.shelf = bookInShelf.shelf;
+                    }
+                });
+                return bookWithoutShelf;
+            });
+            //console.log(allBooks);
+            this.setState({ books: allBooks });
+        })
+    }
+
     searchQueryByState = () => {
         search(this.state.query).then(books => {
             if(books.length > 0) {
-                this.setState({ books });
+                this.addShelfTo(books);
             }
         });
     }
@@ -36,6 +52,8 @@ class Search extends React.Component {
     }
 
     render() {
+        const { books } = this.state;
+        //console.log(books); //books has shelf property here
         return (
             <div className="search-books">
                 <div className="search-books-bar">
@@ -51,9 +69,11 @@ class Search extends React.Component {
                 </div>
                 <div className="search-books-results">
                     <ol className="books-grid">
-                        {this.state.books.map((book, index) => (
-                            <Book key={index} book={book} onShelfChange={this.onShelfChange} />
-                        ))}
+                        {books.map((book, index) => {
+                            //console.log(book.shelf); //gives me undefined
+                            return (
+                            <Book key={index} book={book} onShelfChange={this.onShelfChange} />)
+                        })}
                     </ol>
                 </div>
             </div>

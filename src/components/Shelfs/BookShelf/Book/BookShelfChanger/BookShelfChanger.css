@@ -1,0 +1,63 @@
+.book-shelf-changer:hover {
+    cursor: pointer;
+}
+
+.menu {
+    position: relative;
+}
+
+.menu-item {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background-color: #60ac5d;
+    position: absolute;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 35px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+.menu-item:hover {
+    background-color: #348931;
+}
+
+.first-inactive {
+    -webkit-transform: translate(-5%, -120%); 
+    background-image: url('../../../../../icons/inactive-timer.svg');
+}
+
+.first-active {
+    -webkit-transform: translate(-5%, -120%); 
+    background-image: url('../../../../../icons/active-timer.svg');
+}
+
+.second-inactive {
+    -webkit-transform: translate(-110%, -70%); 
+    background-image: url('../../../../../icons/inactive-eye.svg');
+}
+
+.second-active {
+    -webkit-transform: translate(-110%, -70%); 
+    background-image: url('../../../../../icons/active-eye.svg');
+}
+
+.third-inactive {
+    -webkit-transform: translate(-110%, 50%); 
+    background-image: url('../../../../../icons/inactive-read.svg');
+}
+
+.third-active {
+    -webkit-transform: translate(-110%, 50%); 
+    background-image: url('../../../../../icons/active-read.svg');
+}
+
+.fourth-inactive {
+    -webkit-transform: translate(-5%, 110%); 
+    background-image: url('../../../../../icons/inactive-none.svg');
+}
+
+.fourth-active {
+    -webkit-transform: translate(-5%, 110%); 
+    background-image: url('../../../../../icons/active-none.svg');
+}
