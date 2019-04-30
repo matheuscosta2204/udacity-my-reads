@@ -2,6 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import BookShelf from './BookShelf/BookShelf';
 import { getAll, update } from '../../services/BooksAPI';
+import Modal from '../UI/Modal/Modal';
+import Backdrop from '../UI/Backdrop/Backdrop';
 
 class Shelfs extends React.Component {
 
@@ -9,6 +11,8 @@ class Shelfs extends React.Component {
         currentlyReading: [],
         wantToRead: [],
         read: [],
+        modalIsOpen: false,
+        selectedBook: {},
     }
 
     componentDidMount() {
@@ -29,15 +33,37 @@ class Shelfs extends React.Component {
         update(book, newShelf).then(() => this.getAllBooksInShelf());
     }
 
+    showModal = (book) => {
+        this.setState({ modalIsOpen: true, selectedBook: book });
+    }
+
+    closeModal = () => {
+        this.setState({ modalIsOpen: false });
+    }
+
     render() {
         return (
             <div className="list-books">
                 <div className="list-books-title">
                     <h1>My Reads</h1>
                 </div>
-                <BookShelf title="Currently Reading" books={this.state.currentlyReading} onShelfChange={this.onShelfChange} />
-                <BookShelf title="Want to Read" books={this.state.wantToRead} onShelfChange={this.onShelfChange} />
-                <BookShelf title="Read" books={this.state.read} onShelfChange={this.onShelfChange} />
+                <Backdrop show={this.state.modalIsOpen} close={this.closeModal} />
+                <Modal show={this.state.modalIsOpen} book={this.state.selectedBook} />
+                <BookShelf 
+                    title="Currently Reading" 
+                    books={this.state.currentlyReading} 
+                    onShelfChange={this.onShelfChange} 
+                    showModal={this.showModal} />
+                <BookShelf 
+                    title="Want to Read" 
+                    books={this.state.wantToRead} 
+                    onShelfChange={this.onShelfChange} 
+                    showModal={this.showModal} />
+                <BookShelf 
+                    title="Read" 
+                    books={this.state.read} 
+                    onShelfChange={this.onShelfChange} 
+                    showModal={this.showModal} />
                 <div className="open-search">
                     <Link to="/search">
                         <button>Add a book</button>

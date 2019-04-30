@@ -147,6 +147,10 @@ button:active {
   width: 140px;
 }
 
+.book:hover {
+  cursor: pointer;
+}
+
 .book-title,
 .book-authors {
   font-size: 0.8em;

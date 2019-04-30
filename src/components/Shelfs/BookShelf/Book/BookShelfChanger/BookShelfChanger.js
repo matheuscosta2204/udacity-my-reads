@@ -4,6 +4,30 @@ import { StyleSheet, css } from 'aphrodite';
 import './BookShelfChanger.css';
 
 class BookShelfChanger extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.setWrapperRef = this.setWrapperRef.bind(this);
+        this.handleClickOutside = this.handleClickOutside.bind(this);
+    }
+
+    componentDidMount() {
+        document.addEventListener('mousedown', this.handleClickOutside);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('mousedown', this.handleClickOutside);
+    }
+    
+    setWrapperRef(node) {
+        this.wrapperRef = node;
+    }
+
+    handleClickOutside(event) {
+        if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
+            this.setState({ open: false });
+        }
+    }
 
     state = {
         open: false,
@@ -17,7 +41,10 @@ class BookShelfChanger extends React.Component {
         const cssFourth = ["menu-item", !shelf ? "fourth-active" : "fourth-inactive",css(styles.fourthZoomIn)];
 
         return (
-            <div className="book-shelf-changer" onClick={() => this.setState({ open: !this.state.open })}>
+            <div 
+                className="book-shelf-changer" 
+                onClick={() => this.setState({ open: !this.state.open })} 
+                ref={this.setWrapperRef}>
                 {this.state.open && <div className="menu">
                     <div className={cssFisrt.join(' ')} onClick={() => this.props.onShelfChange(this.props.book, "currentlyReading")}></div>
                     <div className={cssSecond.join(' ')} onClick={() => this.props.onShelfChange(this.props.book, "wantToRead")}></div>
