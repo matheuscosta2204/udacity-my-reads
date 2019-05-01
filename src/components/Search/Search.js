@@ -1,14 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { getAll, search, update } from '../../services/BooksAPI';
+import { search } from '../../services/BooksAPI';
 import Book from '../Shelfs/BookShelf/Book/Book';
 import './Search.css';
 
 class Search extends React.Component {
 
     state = {
-        books: [],
-        query: ""
+        books: []
     }
 
     searchQueryChange = event => {
@@ -16,7 +15,8 @@ class Search extends React.Component {
         if(query !== "") {
             search(query).then(books => {
                 if(books.length > 0) {
-                    this.addShelfTo(books);
+                    const newBooks = this.addShelfTo(books);
+                    this.setState({ books: newBooks });
                 } else {
                     this.setState({ books: [] });
                 }
@@ -24,34 +24,18 @@ class Search extends React.Component {
         } else {
             this.setState({ books: [] });
         }
-        this.setState({ query });
     }
 
     addShelfTo = (booksWithoutShelf) => {
-        getAll().then((booksInShelf) => {
-            let allBooks = booksWithoutShelf.map((bookWithoutShelf) => {
-                booksInShelf.forEach((bookInShelf) => {
-                    if (bookInShelf.id === bookWithoutShelf.id) {
-                        bookWithoutShelf.shelf = bookInShelf.shelf;
-                    }
-                });
-                return bookWithoutShelf;
+        let allBooks = booksWithoutShelf.map((bookWithoutShelf) => {
+            this.props.booksInShelf.forEach((bookInShelf) => {
+                if (bookInShelf.id === bookWithoutShelf.id) {
+                    bookWithoutShelf.shelf = bookInShelf.shelf;
+                }
             });
-            //console.log(allBooks);
-            this.setState({ books: allBooks });
-        })
-    }
-
-    searchQueryByState = () => {
-        search(this.state.query).then(books => {
-            if(books.length > 0) {
-                this.addShelfTo(books);
-            }
+            return bookWithoutShelf;
         });
-    }
-    
-    onShelfChange = (book, newShelf) => {
-        update(book, newShelf).then(() => this.searchQueryByState());
+        return allBooks;
     }
 
     render() {
@@ -73,10 +57,10 @@ class Search extends React.Component {
                     {books.length > 0 && 
                     <ol className="books-grid">
                         {books.map((book, index) => (
-                            <Book key={index} book={book} onShelfChange={this.onShelfChange} />
+                            <Book key={index} book={book} onShelfChange={this.props.onShelfChange} />
                         ))}
                     </ol>}
-                    {books.length <= 0 && this.state.query !== "" && 
+                    {books.length <= 0 && 
                     <div className="error-container">
                         <h1 className="error-text">Any book were found!</h1>
                     </div>}

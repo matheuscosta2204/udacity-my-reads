@@ -2,7 +2,6 @@ import React from 'react';
 import BookShelfChanger from './BookShelfChanger/BookShelfChanger';
 
 const book = (props) => {
-    console.log(props.book);
     const { imageLinks } = props.book;
 
     const url = imageLinks ? imageLinks.smallThumbnail : '../images/white-cover.png';
@@ -13,8 +12,7 @@ const book = (props) => {
                 <div className="book-top">
                     <div 
                         className="book-cover" 
-                        style={{ width: 128, height: 193, backgroundImage: `url(${url}` }}  
-                        onClick={() => props.showModal(props.book)}></div>
+                        style={{ width: 128, height: 193, backgroundImage: `url(${url}` }}></div>
                     <BookShelfChanger book={props.book} onShelfChange={props.onShelfChange} />
                 </div>
                 <div className="book-title">{props.book.title}</div>
