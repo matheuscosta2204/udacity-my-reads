@@ -2,6 +2,8 @@
 
 My Reads is a ReactJS application that allows the user to separate their books in three shelfs (Currently Reading, Want to Read and Read).
 
+![alt text](./public/images/demo.png)
+
 ## Installation
 
 ### Fisrt
